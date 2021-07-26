@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<!-- ##### Contact Form Area Start ##### -->
+<div class="contact-area section-padding-0-80">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="section-heading">
+                    <h2>Login</h2>
+                </div>
+            </div>
+        </div>
+        {% include 'partials/_alerts.html' %}
+        <div class="row">
+            <div class="col-12">
+                <div class="contact-form-area">
+                    <form action="{% url 'login' %}" method="POST">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-12 col-lg-12">
+                            <label for="username"><b>Nome de usuário</b></label>
+                                <input type="text" id="username" class="form-control" name="username" placeholder="Entre com o nome de usuário cadastrado">
+                            </div>
+                                <div class="col-12 col-lg-12">
+                                <label for="password"><b>Senha</b></label>
+                                <input id="password" type="password" class="form-control" name="password" placeholder="Digite aqui sua senha">
+                            </div>
+                            <div class="col-12 text-center">
+                                <button class="btn btn-success" type="submit">Acessar sua conta</button>
+                                <button type="button" class="btn btn-primary" onclick="showRegister()">Ainda não tem conta? Clique aqui</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function showRegister()
+{
+     location.href = "{% url 'register' %}";
+} 
+</script>
+
+{% endblock %}

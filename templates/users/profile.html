@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<!-- ##### Contact Form Area Start ##### -->
+<div class="contact-area section-padding-0-80">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="section-heading">
+                    <h2>Configurações de perfil</h2>
+                </div>
+            </div>
+        </div>
+        {% include 'partials/_alerts.html' %}
+        <div class="row">
+            <div class="col-12">
+                <div class="contact-form-area">
+                    <form action="{% url 'update_user' %}" method="POST">
+                        {% csrf_token %}
+                        <input type="text" id="{{ user.id }}" class="form-control" name="user_id" value="{{ user.id }}" hidden>
+                        <div class="row">
+                            <div class="col-12 col-lg-6">
+                                <label for="first_name"><b>Nome</b></label>
+                                <input type="text" class="form-control" name="first_name" placeholder="Digite seu nome" value="{{ user.first_name }}" required>
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                <label for="last_name"><b>Sobrenome</b></label>
+                                <input type="text" class="form-control" name="last_name" placeholder="Digite seu sobrenome" value="{{ user.last_name }}" required>
+                            </div>
+                            <div class="col-12 col-lg-4">
+                                <label for="password"><b>Senha atual</b></label>
+                                <input type="password" class="form-control" name="password" placeholder="Digite sua senha" required></input>
+                            </div>
+                            <div class="col-12 col-lg-4">
+                                <label for="new_password"><b>Nova senha</b></label>
+                                <input type="password" class="form-control" name="new_password" placeholder="[Opcional] Digite sua senha"></input>
+                            </div>
+                            <div class="col-12 col-lg-4">
+                                <label for="new_password2"><b>Confirmação de nova senha</b></label>
+                                <input type="password" class="form-control" name="new_password2" placeholder="[Opcional] Repita sua senha"></input>
+                            </div>
+                            <div class="col-12 text-center">
+                                <button class="btn btn-success" type="submit">Atualizar seu perfil</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include 'partials/_footer.html' %}
+{% endblock %}
