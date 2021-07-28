@@ -369,6 +369,20 @@ textarea:focus {
   .search-wrapper form {
     position: relative;
     z-index: 1; }
+
+    .search_selector {
+      width: 90%;
+      height: 40px;
+      border: 2px solid #ffffff;
+      font-size: 12px;
+      font-style: italic;
+      padding: 0 20px;
+      background-color: #000;
+      margin: 15px 0; }
+      @media only screen and (max-width: 767px) {
+        .search_selector {
+          width: 80%; } }
+
     .search-wrapper form input {
       width: 90%;
       height: 40px;

@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+    <div class="contact-area section-padding-0-80">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="section-heading">
+                        {% if user.first_name %}
+                        <h3>Olá {{ user.first_name }}!</h3>
+                        {% else %}
+                        <h3>Olá!</h3>
+                        {% endif %}
+                        <p>Este é seu painel de ações. Clique no nome de cada ação para abrir o painel de controle das ações.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ##### Best Receipe Area Start ##### -->
+    <section class="best-receipe-area">
+        <div class="container">
+            <div class="row">
+                <!-- Single Best Receipe Area -->
+                <div class="col-12">
+                    <!-- <div class="single-best-receipe-area mb-30"> -->
+                    {% if quotes %}
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Símbolo</th>
+                                <th scope="col">Exchange</th>
+                                <th scope="col">Nome</th>
+                                <th scope="col">Score</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for quote in quotes %}
+                            <tr">
+                                <th scope="row"><a href="{% url 'quote_dashboard' quote.symbol %}">{{ quote.symbol }}</a></th>
+                                <td>{{ quote.exchange }}</td>
+                                <td>{{ quote.shortname }}</td>
+                                <td>{{ quote.score }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                    <p class="single-best-receipe-area mb-30 text-center">Nenhuma ação encontrada</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ##### Best Receipe Area End ##### -->
+
+{% endblock %}

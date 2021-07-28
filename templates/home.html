@@ -2,16 +2,87 @@
 {% load static %}
 {% block content %}
 
-<div class="contact-area section-padding-0-80">
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <div class="section-heading">
-                    <h3>Essa aqui é a home.html</h3>
-                </div>
-            </div>
-        </div>
+<head>
+    <style>
+        /* Container holding the image and the text */
+        .container {
+        position: relative;
+        }
+
+        /* Bottom left text */
+        .bottom-left {
+        position: absolute;
+        bottom: 8px;
+        left: 16px;
+        }
+
+        /* Top left text */
+        .top-left {
+        position: absolute;
+        top: 8px;
+        left: 16px;
+        }
+
+        /* Top right text */
+        .top-right {
+        position: absolute;
+        top: 8px;
+        right: 16px;
+        }
+
+        /* Bottom right text */
+        .bottom-right {
+        position: absolute;
+        bottom: 8px;
+        right: 16px;
+        }
+
+        /* Centered text */
+        .centered {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        }                                                               
+    </style>
+</head>
+
+<div class="container">
+    <img width="100%"  src="{% static 'img/core-img/charts.svg' %}" alt="">
+    <div class="top-left">
+        <h5>Bem vindo ao TôLigado!</h5>
+        <p>Aqui você consegue ficar ON nas ações da Bovespa,<br>configura alertas, define preços para venda e compra e ainda monitora o mercado!</p>
+        {% if not user.is_authenticated %}
+        <button class="btn btn-success" onClick=goToLogin()>Acessar minha conta</button>
+        <button class="btn btn-primary" onClick=goToRegister()>Ainda não tem conta? Crie agora!</button>
+        {% else %}
+        <button class="btn btn-success" onClick=goToQuotes()>Ver minhas ações</button>
+        <button class="btn btn-primary" onClick=goToProfile()>Acessar meu perfil</button>
+        <!-- <a role="button" class="btn btn-primary" href="{% url 'profile' %}">Acessar meu perfil</a> -->
+        {% endif %}
     </div>
-</div>
+    <div class="bottom-right">
+        <p>Procure as ações que você quer monitorar, configure seus alertas e deixe sua carteira ON também!</p>
+        
+    </div>
+  </div>
+
+<script>
+function goToLogin() {
+    location.href = "{% url 'login' %}";
+}
+
+function goToRegister() {
+    location.href = "{% url 'register' %}";
+}
+
+function goToQuotes() {
+    location.href = "{% url 'my_quotes' %}";
+}
+
+function goToProfile() {
+    location.href = "{% url 'profile' %}";
+}
+</script>
 
 {% endblock %}

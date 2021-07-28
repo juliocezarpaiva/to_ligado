@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'users',
     'finances',
+    'notify',
+    'background_task',
 ]
 
 MIDDLEWARE = [
@@ -134,3 +136,17 @@ import os, sys
 # Project root
 PROJECT_ROOT = os.path.dirname(__file__)
 sys.path.insert(0, os.path.join(PROJECT_ROOT, '../apps'))
+
+# Messages
+from django.contrib.messages import constants as messages
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger',
+    messages.SUCCESS: 'success',
+}
+
+# django-background-tasks configs:
+MAX_ATTEMPTS = 25 # default: 25
+MAX_RUN_TIME = 3600  # default: 3600
+BACKGROUND_TASK_RUN_ASYNC = True # True - multitasking
+# BACKGROUND_TASK_ASYNC_THREADS = 4 # default: multiprocessing.cpu_count()
+# BACKGROUND_TASK_PRIORITY_ORDERING # default: "DESC" (pode atribuir "ASC")
