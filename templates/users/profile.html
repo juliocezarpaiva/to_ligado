@@ -16,7 +16,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="contact-form-area">
-                    <form action="{% url 'update_user' %}" method="POST">
+                    <form action="{% url 'profile' %}" method="POST">
                         {% csrf_token %}
                         <input type="text" id="{{ user.id }}" class="form-control" name="user_id" value="{{ user.id }}" hidden>
                         <div class="row">
@@ -51,5 +51,4 @@
     </div>
 </div>
 
-{% include 'partials/_footer.html' %}
 {% endblock %}

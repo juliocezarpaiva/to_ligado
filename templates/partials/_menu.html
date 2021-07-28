@@ -14,17 +14,9 @@
                                     <!-- TODO: adicionar ações nesse carrousel -->
                                     <li><a href="">Boas vindas!</a></li>
                                     <li><a href="">Aqui você fica ON nos preços das ações da B3</a></li>
-                                    <li><a href="">Registre as ações que deseja monitorar e começe a ganhar dinheiro</a></li>
+                                    <li><a href="">Registre as ações que deseja monitorar e começe a ganhar dinheiro.</a></li>
                                 </ul>
                             </div>
-                        </div>
-                    </div>
-
-                    <!-- Top Social Info -->
-                    <div class="col-12 col-sm-6">
-                        <div class="top-social-info text-right">
-                            <a href=""><i class="fa fa-facebook" aria-hidden="true"></i></a>
-                            <a href=""><i class="fa fa-twitter" aria-hidden="true"></i></a>
                         </div>
                     </div>
                 </div>
@@ -39,7 +31,7 @@
                     <nav class="classy-navbar justify-content-between" id="deliciousNav">
 
                         <!-- Logo -->
-                        <a class="nav-brand" href="{% url 'home' %}"><img  width="200px" src="{% static 'img/core-img/logo.svg' %}" alt=""></a>
+                        <a class="nav-brand" href="{% url 'home' %}"><img  width="200px" src="{% static 'img/core-img/to_ligado.svg' %}" alt=""></a>
 
                         <!-- Navbar Toggler -->
                         <div class="classy-navbar-toggler">
@@ -57,7 +49,7 @@
                             <!-- Nav Start -->
                             <div class="classynav">
                                 <ul>
-                                    <li><a href="{% url 'home' %}">Início</a></li>
+                                    <li><a href="{% url 'market' %}">Market</a></li>
                                     {% if not user.is_authenticated %}
                                     <li><a href="{% url 'register' %}">Cadastro</a></li>
                                     <li><a href="{% url 'login' %}">Entrar</a></li>
@@ -65,8 +57,8 @@
                                     {% if user.is_superuser %}
                                     <li><a href="{% url 'admin:index' %}">Admin</a></li>
                                     {% endif %}
-                                    <li><a href="{% url 'dashboard' %}">Minhas ações</a></li>
-                                    <li><a href="{% url 'update_user' %}">Perfil</a></li>
+                                    <li><a href="{% url 'my_quotes' %}">Minhas ações</a></li>
+                                    <li><a href="{% url 'profile' %}">Perfil</a></li>
                                     <li><a href="{% url 'logout' %}">Sair</a></li>
                                     {% endif %}
                                 </ul>

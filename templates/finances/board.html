@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="contact-area section-padding-0-80">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="section-heading">
+          <h3>{{ quote.quote.symbol }}</h3>
+          <h5>{{ quote.quote.longName }}</h5>
+          <h5>{{ quote.quote.shortName }}</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ##### Best Receipe Area Start ##### -->
+<section class="best-receipe-area">
+  <div class="container">
+    <div class="row">
+      <!-- Single Best Receipe Area -->
+      <div class="row col-12">
+        <div class="col">
+          <table class="table table-borderless">
+            <thead>
+              <tr>
+                <th class="fw-bolder" scope="col">{{ quote.quote.symbol }}</th>
+                <th class="fw-bolder" scope="col">{{ quote.quote.currency }} {{ quote.quote.regularMarketPrice }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Fechamento anterior</th>
+                <td>{{ quote.quote.regularMarketPreviousClose }}</td>
+              </tr>
+              <tr>
+                <th scope="row">Abrir</th>
+                <td>{{ quote.quote.regularMarketOpen }}</td>
+              </tr>
+              <tr>
+                <th scope="row">Preço de Compra</th>
+                <td>{{ quote.quote.bid }}</td>
+              </tr>
+              <tr>
+                <th scope="row">Preço de Venda</th>
+                <td>{{ quote.quote.ask }}</td>
+              </tr>
+              <tr>
+                <th scope="row">Variação do Dia</th>
+                <td>{{ quote.quote.regularMarketDayRange }}</td>
+              </tr>
+              <tr>
+                <th scope="row">Variação de 52 semanas</th>
+                <td>{{ quote.quote.fiftyTwoWeekLowChange }}</td>
+              </tr>
+              <tr>
+                <th scope="row">Volume</th>
+                <td>{{ quote.quote.regularMarketVolume }}</td>
+              </tr>
+              <tr>
+                <th scope="row">Estimativa Volume</th>
+                <td>{{ quote.quote.averageDailyVolume3Month }}</td>
+              </tr>
+              <tr>
+                <th scope="row">Capitalização de Mercado</th>
+                <td>{{ quote.quote.marketCap }}</td>
+              </tr>
+              <tr>
+                <th scope="row">Beta (mensalmente por 5 anos)</th>
+                <td>{{ quote.quote.beta }}</td>
+              </tr>
+              <tr>
+                <th scope="row">Índice P/L (últ. 12 mes.)</th>
+                <td>{{ quote.quote.trailingPE }}</td>
+              </tr>
+              <tr>
+                <th scope="row">LPA (últ. 12 mes.)</th>
+                <td>{{ quote.quote.epsTrailingTwelveMonths }}</td>
+              </tr>
+              <tr>
+                <th scope="row">Dividendo futuro e rendimento</th>
+                <td>{{ quote.quote.dividendRate }} ({{ quote.quote.dividendYield }}%)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col">
+          <div class="contact-form-area">
+            <form action="{% url 'create_user_quote' %}" method="POST">
+              {% csrf_token %}
+              <div class="row">
+                <input type="text" class="form-control" name="symbol" value="{{ quote.quote.symbol }}" hidden>
+                <div class="col-12 col-lg-12">
+                  <label for="update_interval"><b>Intervalo de atualização</b></label>
+                  <input type="number" value="{{ user_quote.update_interval }}" class="form-control"
+                    name="update_interval" placeholder="Em minutos..." min="1" max="1440" required="false">
+                </div>
+                <div class="col-12 col-lg-6">
+                  <label for="higher_limit"><b>Limite superior</b> BRL</label>
+                  <input type="number" value="{{ user_quote.higher_limit }}" class="form-control currency"
+                    name="higher_limit" min="0" step="0.01" data-number-to-fixed="2" data-number-stepfactor="100">
+                </div>
+                <div class="col-12 col-lg-6">
+                  <label for="lower_limit"><b>Limite inferior</b> BRL</label>
+                  <input type="number" value="{{ user_quote.lower_limit }}" class="form-control currency"
+                    name="lower_limit" min="0" step="0.01" data-number-to-fixed="2" data-number-stepfactor="100">
+                </div>
+                <div class="col-12 text-center mt-30">
+                  {% if user_quote %}
+                  <button class="btn btn-success" type="submit">
+                    <a style="color: white;">Atualizar configurações</a>
+                  </button>
+
+                  <button class="btn btn-danger">
+                    <a style="color: white;" href="{% url 'remove_user_quote' quote.quote.symbol %}">Ancora de teste</a>
+                  </button>
+
+                  {% else %}
+                  <button class="btn btn-success" type="submit">
+                    <a style="color: white;">Monitorar ação</a>
+                  </button>
+                  {% endif %}
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ##### Best Receipe Area End ##### -->
+
+{% endblock %}

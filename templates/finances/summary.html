@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class='container'>
+  <div class='row'>
+    {% for item in summary %}
+    <div class='col'>
+      <div class="card" style="min-width: 16rem; height: 400px; margin-top: 20px; margin-bottom: 20px">
+
+        <div class="card-body d-flex justify-content-between" style="background-color: #40BA37; max-height: 60px;">
+          <h5 class="card-title text-left" style="color: ivory;">{{ item.symbol }}</h5>
+          <p class="card-title text-right" style="color: ivory;">{{ item.shortName }}</p>
+        </div>
+        <table class="table table-borderless">
+          <thead>
+            <tr>
+              <th class="fw-bolder" scope="col"></th>
+              <th class="fw-bolder" scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Nome da exchange</th>
+              <td>{{ item.fullExchangeName }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Símbolo</th>
+              <td>{{ item.symbol }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Exchange</th>
+              <td>{{ item.exchange }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Região</th>
+              <td>{{ item.region }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Tipo</th>
+              <td>{{ item.quoteType }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Fechamento anterior</th>
+              <td>{{ item.regularMarketPreviousClose.fmt }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      {% if forloop.counter|divisibleby:5 %}
+    </div>
+  </div>
+  <div class='row'>
+    {% elif forloop.counter|divisibleby:2 %}
+  </div>
+  {% else %}
+</div>
+{% endif%}
+{% endfor%}
+</div>
+</div>
+
+{% endblock %}

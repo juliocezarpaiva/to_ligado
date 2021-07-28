@@ -4,7 +4,6 @@ from django.shortcuts import get_object_or_404, render, redirect
 
 def empty_field(request, field, message, route):
     if not field.strip():
-        print('vazio')
         messages.error(request, message)
         return redirect(route)
 
@@ -13,7 +12,7 @@ def register(request):
     # se o usuário está logado, mas, por algum motivo consegue acessar a rota de registro,
     # então redireciona direto para a dashboard
     if request.user.is_authenticated:
-        return redirect('dashboard')
+        return redirect('home')
     else:
         if request.method == 'POST':
             # recebe campos username, email e senha atraves da req POST
@@ -51,7 +50,7 @@ def register(request):
             user = auth.authenticate(request, username=username, password=password)
             if user is not None:
                 auth.login(request, user)
-                return redirect('dashboard')
+                return redirect('home')
         
         # renderiza formulário de registro
         return render(request, 'users/register.html')
@@ -61,7 +60,7 @@ def login(request):
     # se o usuário está logado, mas, por algum motivo consegue acessar a rota de login,
     # então redireciona direto para a dashboard
     if request.user.is_authenticated:
-        return redirect('dashboard')
+        return redirect('my_quotes')
     else:
         if request.method == 'POST':
             # recebe campos username e senha atraves da req POST
@@ -74,11 +73,11 @@ def login(request):
 
             # tenta fazer a autenticação
             user = auth.authenticate(request, username=username, password=password)
-            # se consegue se logar, então redireciona para dashboard
+            # se consegue se logar, então redireciona para a lista de ações
             # caso não consiga, redireciona de volta para o login
             if user is not None:
                 auth.login(request, user)
-                return redirect('dashboard')
+                return redirect('my_quotes')
             else:
                 messages.error(request, 'Algo deu errado. Tente logar novamente')
                 return redirect('login')
@@ -86,19 +85,12 @@ def login(request):
         # renderiza formulário de login
         return render(request, 'users/login.html')
 
-def dashboard(request):
-    """ Exibe a dashboard para o usuário autenticado """
-    if request.user.is_authenticated:
-        return render(request, 'users/dashboard.html')
-    else:
-        return redirect('home')
-
 def logout(request):
     """ Realiza o processo de logout """
     auth.logout(request)
     return redirect('home')
 
-def update_user(request):
+def profile(request):
     """ Realiza o processo de atualização dos dados do usuário """
     if request.user.is_authenticated:
         user = request.user
@@ -114,12 +106,12 @@ def update_user(request):
         new_password2 = request.POST['new_password2']
 
         # verifica se o usuário preencheu a senha atual
-        empty_field(request, old_password, 'Preencha o campo da sua senha atual', 'update_user')
+        empty_field(request, old_password, 'Preencha o campo da sua senha atual', 'profile')
         # se preencheu, dá continuidade no processo de atualização
         if not user.check_password(old_password):
             # se a senha atual estiver incorreta, emite mensagem e retorna para o formulario
             messages.error(request, 'Senha incorreta')
-            return redirect('update_user')
+            return redirect('profile')
         else:
             # se a senha atual está correta, avança no processo
             # verifica se tem senha para ser atualizada
@@ -127,14 +119,14 @@ def update_user(request):
                 # verifica se as senhas coincidem
                 if new_password != new_password2:
                     messages.error(request, 'As senhas não são iguais')
-                    return redirect('update_user')
+                    return redirect('profile')
                 else:
                     # se as senhas coincidirem, atualiza a senha
                     user.set_password(new_password)
 
             # verifica se tem nome e sobrenome preenchidos
-            empty_field(request, first_name, 'Preencha os campos de nome', 'update_user')
-            empty_field(request, last_name, 'Preencha os campos de nome', 'update_user')
+            empty_field(request, first_name, 'Preencha os campos de nome', 'profile')
+            empty_field(request, last_name, 'Preencha os campos de nome', 'profile')
             # se tudo foi preenchido corretamente e a senha foi validada, continua com o processo
             user.first_name = first_name
             user.last_name = last_name
@@ -145,7 +137,28 @@ def update_user(request):
             # refaz a autenticação
             if user is not None:
                 auth.login(request, user)
-                return redirect('update_user')
+                return redirect('profile')
     else:
         # renderiza formulario de edição de dados
         return render(request, 'users/profile.html')
+
+
+
+
+# testing mail sender
+
+from django.core.mail import BadHeaderError, send_mail
+from django.http import HttpResponse, HttpResponseRedirect
+
+def sendmail(request):
+    user = get_object_or_404(User, pk=request.user.id)
+    try:
+        send_mail(
+            'Subject here',
+            'Here is the message.',
+            'alarmes@toligado.com.br',
+            [user.email],
+            fail_silently=False,
+        )
+    except BadHeaderError:
+        return HttpResponse('Invalid header found.')

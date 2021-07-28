@@ -4,12 +4,24 @@
     <!-- Close Btn -->
     <div class="close-btn"><i class="fa fa-times" aria-hidden="true"></i></div>
 
+    
     <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <form action="">
-                    <input type="text" name="buscar" placeholder="O que está procurando...">
-                    <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+        <div class="col">
+            <div class="">
+                <form action="{% url 'search' %}">
+                    <div class="row">
+                        <!-- TODO: melhorar tamanho desse selector -->
+                        <div class="col-3 search_selector">
+                            <select name="search_selector">
+                                <option value="1">Apenas B3</option>
+                                <option value="2">Tudo</option>
+                            </select>
+                        </div>
+                        <div class="col-9">
+                            <input type="text" name="search" placeholder="O que está procurando...">
+                            <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
