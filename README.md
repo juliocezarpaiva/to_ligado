@@ -110,7 +110,7 @@ Você precisa instalar algumas ferramentas antes de começar
    ```
 3. Instale as libs Python usadas no projeto com:
    ```sh
-   pip3 install requirements.txt
+   pip3 install -r requirements.txt
    ```
 4. Renomeie o arquivo .env_example como .env e configure suas informações e a API Key:
    ```Python
