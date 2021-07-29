@@ -195,7 +195,7 @@ Link do projeto: [https://github.com/juliocezarpaiva/to_ligado](https://github.c
 [issues-url]: https://github.com/juliocezarpaiva/to_ligado/issues
 
 [license-shield]: https://img.shields.io/github/license/juliocezarpaiva/to_ligado.svg?style=for-the-badge
-[license-url]: https://github.com/juliocezarpaiva/to_ligado/LICENSE.txt
+[license-url]: https://github.com/juliocezarpaiva/to_ligado/blob/master/LICENSE.txt
 
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/jcezarpaiva16/
