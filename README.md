@@ -51,9 +51,8 @@
   </ol>
 </details>
 
-
-
 <!-- ABOUT THE PROJECT -->
+<a id="about-the-project"></a>
 ## Sobre
 
 Este é um projeto desenvolvido para o desafio do PS da [Inoa](https://www.inoa.com.br/).
@@ -76,6 +75,8 @@ E um fluxo simples e intuitivo
 
 Os principais recursos que usei para fazer esse projeto estão listados nos créditos.
 
+<!-- BUILT WITH -->
+<a id="built-with"></a>
 ### Feito com
 
 * [Python](https://www.python.org/)
@@ -83,10 +84,13 @@ Os principais recursos que usei para fazer esse projeto estão listados nos cré
 * [Bootstrap](https://getbootstrap.com/)
 
 <!-- GETTING STARTED -->
+<a id="getting-started"></a>
 ## Começando
 
 Baixe o projeto e rode ele localmente na sua máquina
 
+<!-- PREREQUISITES -->
+<a id="prerequisites"></a>
 ### Pré requisitos
 
 Você precisa instalar algumas ferramentas antes de começar
@@ -101,6 +105,8 @@ Você precisa instalar algumas ferramentas antes de começar
     sudo apt-get install python3-pip
     ```
 
+<!-- INSTALLATION -->
+<a id="installation"></a>
 ### Baixando e configurando o projeto
 
 1. Consiga uma API Key de graça [aqui](https://rapidapi.com/apidojo/api/yahoo-finance1/).
@@ -140,6 +146,7 @@ Você precisa instalar algumas ferramentas antes de começar
 
 
 <!-- USAGE -->
+<a id="usage"></a>
 ## Rodando o projeto
 
 Para rodar o projeto, você vai precisar executar duas tarefas:   
@@ -163,11 +170,13 @@ ao invés de rodar o comando runserver sem parâmetros.
 
 
 <!-- LICENSE -->
+<a id="license"></a>
 ## Licença
 
 Distribuído sob a MIT License. Veja `LICENSE.txt` para mais detalhes.
 
 <!-- CONTACT -->
+<a id="contact"></a>
 ## Contato
 
 Julio Cezar Paiva | [linkedin](https://www.linkedin.com/in/jcezarpaiva16/) | juliocezarpaiva@gmail.com
@@ -177,6 +186,7 @@ Link do projeto: [https://github.com/juliocezarpaiva/to_ligado](https://github.c
 
 
 <!-- ACKNOWLEDGEMENTS -->
+<a id="acknowledgements"></a>
 ## Créditos
 * [Choose an Open Source License](https://choosealicense.com)
 * [Django](https://www.djangoproject.com/)
