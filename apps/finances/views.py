@@ -23,8 +23,8 @@ def market(request):
 def search_quotes(request, currency):
     """ Consulta a API procurando por ações que contenham o campo 'currency' no nome """
     # verifica se a barra de pesquisa foi preenchida ou se está vazia
-    if currency.strip():
-        conn.request("GET", "/auto-complete?q="+currency.replace(" ", "-")+"&region=BR", headers=headers)
+    if currency:
+        conn.request("GET", "/auto-complete?q="+currency+"&region=BR", headers=headers)
         res = conn.getresponse()
         data = res.read()
         api_quotes = json.loads(data.decode("utf-8"))['quotes']
@@ -59,6 +59,8 @@ def search(request):
     """ Busca por ações com 'search_quotes' através de da aticação da barra de buscas """
     if 'search' in request.GET:
         currency = request.GET['search']
+        if currency.strip():
+            currency = currency.replace(' ', '-')
     else:
         currency = ''
     return render(request, 'finances/list.html', search_quotes(request, currency))
