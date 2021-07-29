@@ -4,13 +4,14 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from .models import UserQuotes
 import http.client, json
+from .notify import *
 
 # autenticação da API de consulta de ações da Yahoo Finance
 conn = http.client.HTTPSConnection("apidojo-yahoo-finance-v1.p.rapidapi.com")
 headers = {
-    'x-rapidapi-key': "f130a4cc6cmsh12088d8d4aefa12p1ff271jsnae4fadeb438e",
-    'x-rapidapi-host': "apidojo-yahoo-finance-v1.p.rapidapi.com"
-    }
+    'x-rapidapi-key': '87fd0da656mshda0bff1accea574p1ff027jsn4b0c6ed0ccca',
+    'x-rapidapi-host': 'apidojo-yahoo-finance-v1.p.rapidapi.com'
+  }
 
 def market(request):
     conn.request("GET", "/market/v2/get-summary?region=BR", headers=headers)
@@ -89,33 +90,48 @@ def quote_dashboard(request, quote_symbol):
 def create_user_quote(request):
     if request.method == 'POST':
         user = get_object_or_404(User, pk=request.user.id)
+
+        quote = {
+            'symbol': request.POST['symbol'],
+            'update_interval': request.POST['update_interval'],
+            'higher_limit': request.POST['higher_limit'],
+            'lower_limit':request.POST['lower_limit']
+
+        }
+
         obj, created = UserQuotes.objects.get_or_create(
             symbol=request.POST['symbol'],
             user = user,
             defaults={
-                'symbol': request.POST['symbol'],
-                'update_interval': request.POST['update_interval'],
-                'higher_limit': request.POST['higher_limit'],
-                'lower_limit': request.POST['lower_limit'],
+                'symbol': quote['symbol'],
+                'update_interval': quote['update_interval'],
+                'higher_limit': quote['higher_limit'],
+                'lower_limit': quote['lower_limit'],
                 'notification_check': True,
                 'user': user
             },
         )
 
         if not created:
-            obj.symbol = request.POST['symbol']
-            obj.update_interval = request.POST['update_interval']
-            obj.higher_limit = request.POST['higher_limit']
-            obj.lower_limit = request.POST['lower_limit']
+            obj.symbol = quote['symbol']
+            obj.update_interval = quote['update_interval']
+            obj.higher_limit = quote['higher_limit']
+            obj.lower_limit = quote['lower_limit']
             obj.notification_check = True
             obj.save()
 
-        return redirect('quote_dashboard', obj.symbol)
+        # cria a ação de atualização e notificação usando a backgroud_tasks
+        create_task(request, quote['symbol'], quote['higher_limit'], quote['lower_limit'], quote['update_interval'])
+
+        return redirect('quote_dashboard', quote['symbol'])
 
 def remove_user_quote(request, quote_symbol):
-    print(quote_symbol)
-    # user = get_object_or_404(User, pk=request.user.id)
+    verbose_name="quote-"+quote_symbol+"-user-"+str(request.user.id)
+    # encontra a ação
     quote = UserQuotes.objects.get(symbol=quote_symbol, user_id=request.user.id)
-    print(quote)
-    quote.delete()
+    if quote:
+        # deleta ação
+        quote.delete()
+    # deleta o tarefa de atualização e notificação
+    delete_tasks(verbose_name)
     return redirect('my_quotes')

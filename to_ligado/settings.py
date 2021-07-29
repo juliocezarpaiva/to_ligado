@@ -150,3 +150,10 @@ MAX_RUN_TIME = 3600  # default: 3600
 BACKGROUND_TASK_RUN_ASYNC = True # True - multitasking
 # BACKGROUND_TASK_ASYNC_THREADS = 4 # default: multiprocessing.cpu_count()
 # BACKGROUND_TASK_PRIORITY_ORDERING # default: "DESC" (pode atribuir "ASC")
+
+# djang-mail configs:
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True 
+EMAIL_PORT = 587 
+EMAIL_HOST_USER = 'juliocezarpaiva@gmail.com'
+EMAIL_HOST_PASSWORD = 'qqoybnnspudbqqfu'

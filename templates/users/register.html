@@ -12,16 +12,24 @@
                 </div>
             </div>
         </div>
-        {% include 'partials/_alerts.html' %}
+        
         <div class="row">
             <div class="col-12">
                 <div class="contact-form-area">
                     <form action="{% url 'register' %}" method="POST">
                         {% csrf_token %}
                         <div class="row">
-                            <div class="col-12 col-lg-12">
+                            <div class="col-12 col-lg-4">
                                 <label for="user"><b>Usuário</b></label>
                                 <input type="text" class="form-control" name="user" placeholder="Digite seu nome de usuário" required>
+                            </div>
+                            <div class="col-12 col-lg-4">
+                                <label for="first_name"><b>Nome</b></label>
+                                <input type="text" class="form-control" name="first_name" placeholder="Digite seu nome" required>
+                            </div>
+                            <div class="col-12 col-lg-4">
+                                <label for="last_name"><b>Sobrenome</b></label>
+                                <input type="text" class="form-control" name="last_name" placeholder="Digite seu sobrenome" required>
                             </div>
                             <div class="col-12 col-lg-12">
                                 <label for="email"><b>Email</b></label>
@@ -46,5 +54,4 @@
     </div>
 </div>
 
-{% include 'partials/_footer.html' %}
 {% endblock %}
