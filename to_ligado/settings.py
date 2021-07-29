@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+from decouple import config
+import multiprocessing
+from django.contrib.messages import constants as messages
+import os, sys
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -39,7 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'users',
     'finances',
-    'notify',
+    # 'notify',
     'background_task',
 ]
 
@@ -107,16 +111,11 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
-
-USE_I18N = True
-
+LANGUAGE_CODE = 'en'
+TIME_ZONE = 'America/Sao_Paulo'
 USE_L10N = True
-
 USE_TZ = True
-
+USE_I18N = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
@@ -131,29 +130,34 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-import os, sys
-
 # Project root
 PROJECT_ROOT = os.path.dirname(__file__)
 sys.path.insert(0, os.path.join(PROJECT_ROOT, '../apps'))
 
 # Messages
-from django.contrib.messages import constants as messages
+
 MESSAGE_TAGS = {
     messages.ERROR: 'danger',
     messages.SUCCESS: 'success',
 }
 
-# django-background-tasks configs:
-MAX_ATTEMPTS = 25 # default: 25
-MAX_RUN_TIME = 3600  # default: 3600
-BACKGROUND_TASK_RUN_ASYNC = True # True - multitasking
-# BACKGROUND_TASK_ASYNC_THREADS = 4 # default: multiprocessing.cpu_count()
-# BACKGROUND_TASK_PRIORITY_ORDERING # default: "DESC" (pode atribuir "ASC")
+# Django BG Tasks
 
-# djang-mail configs:
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_USE_TLS = True 
-EMAIL_PORT = 587 
-EMAIL_HOST_USER = 'juliocezarpaiva@gmail.com'
-EMAIL_HOST_PASSWORD = 'qqoybnnspudbqqfu'
+MAX_ATTEMPTS = config('MAX_ATTEMPTS', default=25, cast=int)
+MAX_RUN_TIME = config('MAX_RUN_TIME', default=3600, cast=int)
+BACKGROUND_TASK_RUN_ASYNC = config('BACKGROUND_TASK_RUN_ASYNC', default=True, cast=bool)
+BACKGROUND_TASK_ASYNC_THREADS = config('BACKGROUND_TASK_ASYNC_THREADS', default=multiprocessing.cpu_count(), cast=int)
+BACKGROUND_TASK_PRIORITY_ORDERING = config('BACKGROUND_TASK_PRIORITY_ORDERING', default='DESC')
+
+# Django mail configs
+
+EMAIL_HOST = config('EMAIL_HOST', default='smtp.gmail.com')
+EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
+EMAIL_PORT = config('EMAIL_PORT', default=587, cast=int)
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+
+# API Key
+
+X_RAPIDAPI_KEY = config('X_RAPIDAPI_KEY')
+X_RAPIDAPI_HOST = config('X_RAPIDAPI_HOST')

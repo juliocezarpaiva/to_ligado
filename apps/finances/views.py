@@ -1,19 +1,17 @@
+from to_ligado.settings import X_RAPIDAPI_KEY, X_RAPIDAPI_HOST
 from django.contrib import messages
-from django.http import request
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
+from .notify import *
 from .models import UserQuotes
 import http.client, json
-from .notify import *
 
 # autenticação da API de consulta de ações da Yahoo Finance
 conn = http.client.HTTPSConnection("apidojo-yahoo-finance-v1.p.rapidapi.com")
-headers = {
-    'x-rapidapi-key': '87fd0da656mshda0bff1accea574p1ff027jsn4b0c6ed0ccca',
-    'x-rapidapi-host': 'apidojo-yahoo-finance-v1.p.rapidapi.com'
-  }
+headers = { 'x-rapidapi-key': X_RAPIDAPI_KEY, 'x-rapidapi-host': X_RAPIDAPI_HOST }
 
 def market(request):
+    """ Consulta a API procurando por informações sobre o mercado """
     conn.request("GET", "/market/v2/get-summary?region=BR", headers=headers)
     res = conn.getresponse()
     data = res.read()
@@ -72,7 +70,6 @@ def my_quotes(request):
     for quote in quotes:
         quote_list += quote.symbol + '%2C'
 
-    print(search_quotes(request, quote_list))
     return render(request, 'finances/list.html', search_quotes(request, quote_list))
 
 def quote_dashboard(request, quote_symbol):
@@ -93,16 +90,19 @@ def create_user_quote(request):
     if request.method == 'POST':
         user = get_object_or_404(User, pk=request.user.id)
 
+        higher_limit = float((request.POST['higher_limit']).replace(',','.'))
+        lower_limit = float((request.POST['lower_limit']).replace(',','.'))
+
         quote = {
             'symbol': request.POST['symbol'],
             'update_interval': request.POST['update_interval'],
-            'higher_limit': request.POST['higher_limit'],
-            'lower_limit':request.POST['lower_limit']
-
+            'higher_limit': higher_limit,
+            'lower_limit': lower_limit
         }
 
+        # busca UserQuote pelo symbol e pelo user, se não acha, então cria um com os parametros em defaults
         obj, created = UserQuotes.objects.get_or_create(
-            symbol=request.POST['symbol'],
+            symbol=quote['symbol'],
             user = user,
             defaults={
                 'symbol': quote['symbol'],
@@ -113,7 +113,7 @@ def create_user_quote(request):
                 'user': user
             },
         )
-
+        # se não criou um UserQuote, ou seja, já existe, então atualiza a UserQuote encontrada
         if not created:
             obj.symbol = quote['symbol']
             obj.update_interval = quote['update_interval']

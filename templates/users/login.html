@@ -28,8 +28,12 @@
                                 <input id="password" type="password" class="form-control" name="password" placeholder="Digite aqui sua senha">
                             </div>
                             <div class="col-12 text-center">
-                                <button class="btn btn-success" type="submit">Acessar sua conta</button>
-                                <button type="button" class="btn btn-primary" onclick="showRegister()">Ainda não tem conta? Clique aqui</button>
+                                <button class="btn btn-success" type="submit">
+                                    <a style="color: white;" >Acessar sua conta</a>
+                                </button>
+                                <button class="btn btn-primary">
+                                    <a style="color: white;" href="{% url 'register' %}">Ainda não tem conta? Clique aqui</a>
+                                </button>
                             </div>
                         </div>
                     </form>

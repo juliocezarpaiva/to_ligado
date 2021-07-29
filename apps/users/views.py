@@ -1,11 +1,7 @@
 from django.contrib.auth.models import User
 from django.contrib import auth, messages
-from django.shortcuts import get_object_or_404, render, redirect
-
-def empty_field(request, field, message, route):
-    if not field.strip():
-        messages.error(request, message)
-        return redirect(route)
+from django.shortcuts import render, redirect
+from to_ligado.utils import *
 
 def register(request):
     """ Cadastra um novo usuário no sistema """
@@ -24,37 +20,30 @@ def register(request):
             last_name = request.POST['last_name']
 
             # se algum dos campos do form for nulo, imprime mensagem de erro e redireciona de volta ao login
-            empty_field(request, username, 'Insira um nome de usuário válido', 'register')
-            empty_field(request, first_name, 'Insira um nome válido', 'register')
-            empty_field(request, last_name, 'Insira um sobrenome válido', 'register')
-            empty_field(request, email, 'Insira um email válido', 'register')
-            empty_field(request, password, 'Insira uma senha válida', 'register')
+            if empty_field(username):   send_error(request, 'Insira um nome de usuário válido', 'register')
+            if empty_field(first_name): send_error(request, 'Insira um nome válido', 'register')
+            if empty_field(last_name):  send_error(request, 'Insira um sobrenome válido', 'register')
+            if empty_field(email):      send_error(request, 'Insira um email válido', 'register')
+            if empty_field(password):   send_error(request, 'Insira uma senha válida', 'register')
 
             # verifica se as senhas coincidem
-            if password != password2:
-                messages.error(request, 'As senhas não são iguais')
-                return redirect('register')
+            if password != password2:   send_error(request, 'As senhas não são iguais', 'register')
 
             # verifica se o email desejado já não foi utilizado
-            if User.objects.filter(email=email).exists():
-                messages.error(request, 'Este email já foi usado')
-                return redirect('register')
+            if User.objects.filter(email=email).exists():   send_error(request, 'Este email já foi usado', 'register')
 
             # verifica se o username desejado já não foi utilizado
-            if User.objects.filter(username=username).exists():
-                messages.error(request, 'Este nome de usuário já foi usado')
-                return redirect('register')
+            if User.objects.filter(username=username).exists(): send_error(request, 'Este nome de usuário já foi usado', 'register')
 
             # realiza a criação de conta
             user = User.objects.create_user(username=username, first_name=first_name, last_name=last_name, email=email, password=password)
             user.save()
-            messages.success(request, 'Usuário cadastrado com sucesso')
             
             # tenta fazer a autenticação
             user = auth.authenticate(request, username=username, password=password)
             if user is not None:
                 auth.login(request, user)
-                return redirect('home')
+                send_success(request, 'Usuário cadastrado com sucesso', 'home')
         
         # renderiza formulário de registro
         return render(request, 'users/register.html')
@@ -72,8 +61,8 @@ def login(request):
             password = request.POST['password']
             
             # se algum dos campos do form for nulo, imprime mensagem de erro e redireciona de volta ao login
-            empty_field(request, username, 'Seu nome de usuário não pode estar em branco', 'login')
-            empty_field(request, password, 'Sua senha não pode estar em branco', 'login')
+            if empty_field(username):   send_error(request, 'Seu nome de usuário não pode estar em branco', 'login')
+            if empty_field(password):   send_error(request, 'Sua senha não pode estar em branco', 'login')
 
             # tenta fazer a autenticação
             user = auth.authenticate(request, username=username, password=password)
@@ -110,59 +99,33 @@ def profile(request):
         new_password2 = request.POST['new_password2']
 
         # verifica se o usuário preencheu a senha atual
-        empty_field(request, old_password, 'Preencha o campo da sua senha atual', 'profile')
+        if empty_field(old_password):   send_error(request, 'Preencha o campo da sua senha atual', 'profile')
         # se preencheu, dá continuidade no processo de atualização
         if not user.check_password(old_password):
             # se a senha atual estiver incorreta, emite mensagem e retorna para o formulario
-            messages.error(request, 'Senha incorreta')
-            return redirect('profile')
+             send_error(request, 'Senha incorreta', 'profile')
         else:
             # se a senha atual está correta, avança no processo
             # verifica se tem senha para ser atualizada
             if new_password.strip() or new_password2.strip():
                 # verifica se as senhas coincidem
-                if new_password != new_password2:
-                    messages.error(request, 'As senhas não são iguais')
-                    return redirect('profile')
+                if new_password != new_password2:    send_error(request, 'As senhas não são iguais', 'profile')
                 else:
                     # se as senhas coincidirem, atualiza a senha
                     user.set_password(new_password)
 
             # verifica se tem nome e sobrenome preenchidos
-            empty_field(request, first_name, 'Preencha os campos de nome', 'profile')
-            empty_field(request, last_name, 'Preencha os campos de nome', 'profile')
+            if empty_field(first_name) or empty_field(last_name): send_error(request, 'Preencha os campos de nome', 'profile')
             # se tudo foi preenchido corretamente e a senha foi validada, continua com o processo
             user.first_name = first_name
             user.last_name = last_name
             # atualiza o usuário
             user.save()
-            messages.success(request, 'Perfil atualizado com sucesso')
             
             # refaz a autenticação
             if user is not None:
                 auth.login(request, user)
-                return redirect('profile')
+                send_success(request, 'Perfil atualizado com sucesso', 'profile')
     else:
         # renderiza formulario de edição de dados
         return render(request, 'users/profile.html')
-
-
-
-
-# testing mail sender
-
-from django.core.mail import BadHeaderError, send_mail
-from django.http import HttpResponse, HttpResponseRedirect
-
-def sendmail(request):
-    user = get_object_or_404(User, pk=request.user.id)
-    try:
-        send_mail(
-            'Subject here',
-            'Here is the message.',
-            'alarmes@toligado.com.br',
-            [user.email],
-            fail_silently=False,
-        )
-    except BadHeaderError:
-        return HttpResponse('Invalid header found.')

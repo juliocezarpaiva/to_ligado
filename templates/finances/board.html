@@ -88,24 +88,26 @@
         </div>
         <div class="col">
           <div class="contact-form-area">
+            <!-- <div class="contact-form-area"> -->
+            {% if user.is_authenticated %}
             <form action="{% url 'create_user_quote' %}" method="POST">
               {% csrf_token %}
-              <div class="row">
+              <div class="row" lang="en-US">
                 <input type="text" class="form-control" name="symbol" value="{{ quote.quote.symbol }}" hidden>
                 <div class="col-12 col-lg-12">
-                  <label for="update_interval"><b>Intervalo de atualização</b></label>
+                  <label for="update_interval"><b>Intervalo de atualização</b> (em minutos)</label>
                   <input type="number" value="{{ user_quote.update_interval }}" class="form-control"
-                    name="update_interval" placeholder="Em minutos..." min="1" max="1440" required="false">
+                    name="update_interval" lang="en" placeholder="Em minutos..." min="1" max="1440" required>
                 </div>
                 <div class="col-12 col-lg-6">
-                  <label for="higher_limit"><b>Limite superior</b> BRL</label>
-                  <input type="number" value="{{ user_quote.higher_limit }}" class="form-control currency"
-                    name="higher_limit" min="0" step="0.01" data-number-to-fixed="2" data-number-stepfactor="100">
+                  <label for="higher_limit"><b>Limite superior</b> {{ quote.quote.currency }}</label>
+                  <input type="number" value="{{ user_quote.higher_limit }}" class="form-control currency number"
+                    name="higher_limit" min="0" step="0.01" data-number-to-fixed="2" required>
                 </div>
                 <div class="col-12 col-lg-6">
-                  <label for="lower_limit"><b>Limite inferior</b> BRL</label>
-                  <input type="number" value="{{ user_quote.lower_limit }}" class="form-control currency"
-                    name="lower_limit" min="0" step="0.01" data-number-to-fixed="2" data-number-stepfactor="100">
+                  <label for="lower_limit"><b>Limite inferior</b> {{ quote.quote.currency }}</label>
+                  <input type="number" value="{{ user_quote.lower_limit }}" class="form-control currency number"
+                    name="lower_limit" min="0" step="0.01" data-number-to-fixed="2" required>
                 </div>
                 <div class="col-12 text-center mt-30">
                   {% if user_quote %}
@@ -123,12 +125,21 @@
                   </button>
                   {% endif %}
                 </div>
-              </div>
             </form>
+            {% else %}
+            <div class="col-12 text-center mt-30" style="align-self: center;">
+              <h6 style="color: grey; margin-bottom: 30px;">Parece que você ainda não é registrado...</h6>
+              <button class="btn btn-primary" type="submit">
+                <a style="color: white;" href="{% url 'register' %}">Crie uma conta e comece a monitorar</a>
+              </button>
+            </div>
           </div>
+
+          {% endif %}
         </div>
       </div>
     </div>
+  </div>
   </div>
 </section>
 <!-- ##### Best Receipe Area End ##### -->
