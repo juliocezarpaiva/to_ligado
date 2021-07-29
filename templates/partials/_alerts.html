@@ -1,8 +1,8 @@
 {% load static %}
 {% if messages %}
     {% for message in messages %}
-    <div class="alert alert-{{ message.tags }}" role="alert">
-        {{ message }}
+    <div class="alert alert-{{ message.tags }}" role="alert" style="height: 50px;">
+        <p class="alert-{{ message.tags }}">{{ message }}</p>
     </div>
     {% endfor %}
 {% endif %}

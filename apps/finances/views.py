@@ -29,9 +29,8 @@ def search_quotes(request, currency):
         data = res.read()
         api_quotes = json.loads(data.decode("utf-8"))['quotes']
         # verifica se o usuário quer procurar somente na B3 ou se quer procurar globalmente utilizando selector na página
-        if 'search_selector' in request.GET:
-            print(request.GET['search_selector'])
-            if request.GET['search_selector'] == '1':
+        if 'onlyB3' in request.GET:
+            if request.GET['onlyB3'] == '1':
                 SA_quotes = [ { key: quote[key] for key in quote } for quote in api_quotes if quote['exchange'] == 'SAO' or quote['symbol'].endswith('.SA') ]
                 return { 'quotes': SA_quotes }
         return { 'quotes': api_quotes }
@@ -47,6 +46,7 @@ def get_quote(quote):
     api_quote = json.loads(data.decode("utf-8"))['quoteResponse']
     return { 'quote': api_quote['result'][0] }
 
+# nao utilizada
 def get_chart(quote, interval, time_range):
     """ Consulta a API em busca de gráficos a partir do símbolo 'quote', do intervalo 'interval' e do alcance 'time_range' """
     conn.request("GET", "/market/get-charts?symbol="+quote+"&interval="+interval+"&range="+time_range+"&region=BR", headers=headers)
