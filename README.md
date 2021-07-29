@@ -68,7 +68,11 @@ O que esse projeto é capaz de fazer:
 
 Emails simplesmente BONITAÇOS
 
-![Product Name Screen Shot][product-screenshot]
+![Email Screenshot][mail-screenshot]
+
+E um fluxo simples e intuitivo
+
+![TôLigado! Screenshot][product-screenshot]
 
 Os principais recursos que usei para fazer esse projeto estão listados nos créditos.
 
