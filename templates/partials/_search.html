@@ -1,18 +1,31 @@
 {% load static %}
 <!-- Search -->
 
-    <div style="width: 100%; height: 100%; background-color: #ffffff; border-bottom: 1px solid #dddee9;">
+    <div style="width: 100%; height: 100%; background-color: #ffffff; border-bottom: 1px solid #dddee9; vertical-align: middle;">
             <div class="container">
-                <form action="{% url 'search' %}" method="POST">
+                <form action="{% url 'search' %}">
                     <div class="input-group" style="margin-top: 15px; margin-bottom: 15px">
-                        <input type="text" class="form-control" placeholder="O que você está procurando?" aria-label="O que você está procurando?" style="height: 52px;
-                        background-color: #f3f5f8; font-size: 12px; font-style: italic; border: none; border-radius: 5px;">
+                        <!-- Logo -->
+                        <a class="nav-brand" href="{% url 'home' %}"><img  width="100px" style="margin-right: 15px;"
+                            src="{% static 'img/core-img/to_ligado_novo.svg' %}" alt="TôLigado!"></a>
+                        
+                        <div class="input-group-prepend">
+                            <div class="input-group-text"
+                            style="height: 52px; width: 160px; background-color: white; font-size: 12px; font-style: italic;
+                            border-top-left-radius:     5px; border-bottom-left-radius:  5px">
+                                <div class="row" style="padding-left: 36px;">
+                                    <input name="onlyB3" type="checkbox" class="form-check-input" id="Check1" value="1" checked>
+                                    <label class="form-check-label" for="Check1">Buscar apenas na B3</label>
+                                </div>
+                            </div>
+                            
+                        </div>
+
+                        <input type="text" class="form-control" name="search" placeholder="O que você está procurando?" 
+                        style="height: 52px; background-color: #f3f5f8; font-size: 12px; font-style: italic;  border-radius: 0;">
+                        
                         <div class="input-group-append" style="height: 52px;">
-                          <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Buscar  </button>
-                          <div class="dropdown-menu">
-                            <a class="dropdown-item" type="submit">Buscar apenas na B3</a>
-                            <a class="dropdown-item" type="submit">Buscar globalmente</a>
-                          </div>
+                          <button class="btn btn-success" type="submit">Buscar</button>
                         </div>
                     </div>
                 </form>
