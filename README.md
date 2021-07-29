@@ -180,6 +180,7 @@ Link do projeto: [https://github.com/juliocezarpaiva/to_ligado](https://github.c
 ## Créditos
 * [Choose an Open Source License](https://choosealicense.com)
 * [Django](https://www.djangoproject.com/)
+* [decouple](https://github.com/henriquebastos/python-decouple)
 * [Bootstrap](https://getbootstrap.com/)
 * [Django Background Tasks](https://django-background-tasks.readthedocs.io/en/latest/#)
 * [Alura](https://cursos.alura.com.br/)

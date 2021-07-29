@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'users',
     'finances',
-    # 'notify',
     'background_task',
 ]
 
