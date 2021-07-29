@@ -28,22 +28,30 @@ def update_and_notify(user_id, quote_symbol, higher_limit, lower_limit):
 
     if updated_quote:
         quote_dict = {
-            'shortName': updated_quote['shortName'],
-            'longName': updated_quote['longName'],
-            'symbol': updated_quote['symbol'],
-            'currency': updated_quote['currency'],
-            'regularMarketPrice': updated_quote['regularMarketPrice'],
-            'regularMarketDayHigh': updated_quote['regularMarketDayHigh'],
-            'regularMarketDayRange': updated_quote['regularMarketDayRange'],
-            'regularMarketDayLow': updated_quote['regularMarketDayLow'],
-            'regularMarketPreviousClose': updated_quote['regularMarketPreviousClose'],
-            'targetPriceHigh': updated_quote['targetPriceHigh'],
-            'targetPriceLow': updated_quote['targetPriceLow'],
-            'targetPriceMean': updated_quote['targetPriceMean'],
-            'targetPriceMedian': updated_quote['targetPriceMedian']
+            'shortName': '',
+            'longName': '',
+            'symbol': '',
+            'currency': '',
+            'regularMarketPrice': '',
+            'regularMarketDayHigh': '',
+            'regularMarketDayRange': '',
+            'regularMarketDayLow': '',
+            'regularMarketPreviousClose': '',
+            'targetPriceHigh': '',
+            'targetPriceLow': '',
+            'targetPriceMean': '',
+            'targetPriceMedian': ''
         }
+        for key in quote_dict:
+            if updated_quote[key]:
+                quote_dict[key] = updated_quote[key]
+            else:
+                quote_dict[key] = '-'
         
-        quote_price = float(quote_dict['regularMarketPrice'])
+        if quote_dict['regularMarketPrice'] != '-':
+            quote_price = float(quote_dict['regularMarketPrice'])
+        else:
+            quote_price = 0
         higher_price = float(higher_limit)
         lower_price = float(lower_limit)
 
