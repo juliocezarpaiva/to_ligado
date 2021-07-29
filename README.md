@@ -20,7 +20,7 @@
   <p align="center">
     Procure e encontre ações. Configure limites de preço e alertas. Fique ON e atinja um novo patamar financeiro!
     <br />
-    <a href="https://github.com/juliocezarpaiva/to_ligado/README.md"><strong>Read the docs!</strong></a>
+    <a href="https://github.com/juliocezarpaiva/to_ligado/blob/master/README.md"><strong>Read the docs!</strong></a>
     <br />
   </p>
 </p>
