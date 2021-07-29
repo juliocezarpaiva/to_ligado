@@ -20,9 +20,13 @@ def register(request):
             email = request.POST['email']
             password = request.POST['password']
             password2 = request.POST['password2']
+            first_name = request.POST['first_name']
+            last_name = request.POST['last_name']
 
             # se algum dos campos do form for nulo, imprime mensagem de erro e redireciona de volta ao login
             empty_field(request, username, 'Insira um nome de usuário válido', 'register')
+            empty_field(request, first_name, 'Insira um nome válido', 'register')
+            empty_field(request, last_name, 'Insira um sobrenome válido', 'register')
             empty_field(request, email, 'Insira um email válido', 'register')
             empty_field(request, password, 'Insira uma senha válida', 'register')
 
@@ -42,7 +46,7 @@ def register(request):
                 return redirect('register')
 
             # realiza a criação de conta
-            user = User.objects.create_user(username=username, email=email, password=password)
+            user = User.objects.create_user(username=username, first_name=first_name, last_name=last_name, email=email, password=password)
             user.save()
             messages.success(request, 'Usuário cadastrado com sucesso')
             
@@ -66,7 +70,7 @@ def login(request):
             # recebe campos username e senha atraves da req POST
             username = request.POST['username']
             password = request.POST['password']
-
+            
             # se algum dos campos do form for nulo, imprime mensagem de erro e redireciona de volta ao login
             empty_field(request, username, 'Seu nome de usuário não pode estar em branco', 'login')
             empty_field(request, password, 'Sua senha não pode estar em branco', 'login')

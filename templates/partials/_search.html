@@ -1,29 +1,21 @@
 {% load static %}
-<!-- Search Wrapper -->
-<div class="search-wrapper">
-    <!-- Close Btn -->
-    <div class="close-btn"><i class="fa fa-times" aria-hidden="true"></i></div>
+<!-- Search -->
 
-    
-    <div class="container">
-        <div class="col">
-            <div class="">
-                <form action="{% url 'search' %}">
-                    <div class="row">
-                        <!-- TODO: melhorar tamanho desse selector -->
-                        <div class="col-3 search_selector">
-                            <select name="search_selector">
-                                <option value="1">Apenas B3</option>
-                                <option value="2">Tudo</option>
-                            </select>
-                        </div>
-                        <div class="col-9">
-                            <input type="text" name="search" placeholder="O que está procurando...">
-                            <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+    <div style="width: 100%; height: 100%; background-color: #ffffff; border-bottom: 1px solid #dddee9;">
+            <div class="container">
+                <form action="{% url 'search' %}" method="POST">
+                    <div class="input-group" style="margin-top: 15px; margin-bottom: 15px">
+                        <input type="text" class="form-control" placeholder="O que você está procurando?" aria-label="O que você está procurando?" style="height: 52px;
+                        background-color: #f3f5f8; font-size: 12px; font-style: italic; border: none; border-radius: 5px;">
+                        <div class="input-group-append" style="height: 52px;">
+                          <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Buscar  </button>
+                          <div class="dropdown-menu">
+                            <a class="dropdown-item" type="submit">Buscar apenas na B3</a>
+                            <a class="dropdown-item" type="submit">Buscar globalmente</a>
+                          </div>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-</div>
