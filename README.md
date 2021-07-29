@@ -112,17 +112,25 @@ Você precisa instalar algumas ferramentas antes de começar
    ```sh
    pip3 install requirements.txt
    ```
-4. Configure suas informações e a API Key em `configs.py`
+4. Renomeie o arquivo .env_example como .env e configure suas informações e a API Key:
    ```Python
-    # djang-mail configs:
-    EMAIL_HOST = o servidor smtp do seu email (Google: 'smtp.gmail.com')
-    EMAIL_USE_TLS = verifique se o seu provedor usa TLS (Google: True)
-    EMAIL_PORT = verifique a porta usada pelo seu provedor (Google: 587)
-    EMAIL_HOST_USER = 'email@provedor.com'
-    EMAIL_HOST_PASSWORD = 'senha'
+    # django-background-tasks configs:
+    MAX_ATTEMPTS = 25
+    MAX_RUN_TIME = 3600
+    BACKGROUND_TASK_RUN_ASYNC = True
+    # BACKGROUND_TASK_ASYNC_THREADS = 4
+    # BACKGROUND_TASK_PRIORITY_ORDERING = 'ASC'
 
-    # api configs:
-    API_KEY = { 'sua api key' }
+    # djang-mail configs:
+    EMAIL_HOST = 'smtp.seuhost.com'
+    EMAIL_USE_TLS = True ou False (depende do seu host)
+    EMAIL_PORT = porta SMTP do seu host
+    EMAIL_HOST_USER = 'seu-email@seuhost.com'
+    EMAIL_HOST_PASSWORD = 'sua-senha'
+
+    # api key
+    X_RAPIDAPI_KEY = 'sua-chave-api'
+    X_RAPIDAPI_HOST = 'apidojo-yahoo-finance-v1.p.rapidapi.com'
    ```
 5. Migre as bases de dados do projeto
     ```sh
@@ -172,6 +180,7 @@ Link do projeto: [https://github.com/juliocezarpaiva/to_ligado](https://github.c
 ## Créditos
 * [Choose an Open Source License](https://choosealicense.com)
 * [Django](https://www.djangoproject.com/)
+* [decouple](https://github.com/henriquebastos/python-decouple)
 * [Bootstrap](https://getbootstrap.com/)
 * [Django Background Tasks](https://django-background-tasks.readthedocs.io/en/latest/#)
 * [Alura](https://cursos.alura.com.br/)
